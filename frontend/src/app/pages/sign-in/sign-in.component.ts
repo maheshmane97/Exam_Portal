@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SignInService } from 'src/app/services/sign-in.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -7,9 +9,43 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignInComponent implements OnInit {
 
-  constructor() { }
+  signInData={
+    userName:'',
+    password:'',
+  };
+  constructor(private snack:MatSnackBar, private signIn:SignInService) { }
 
   ngOnInit(): void {
   }
 
+  formSubmit(){
+    console.log("Sign In Button is clicked..!");
+    if(this.signInData.userName=='' || this.signInData.userName == null){
+      // alert("User Name is Required..!")
+      this.snack.open("UserName is Required.!!", "OK", {
+        duration:2000,
+      })
+      return;
+    }
+    
+    if(this.signInData.password=='' || this.signInData.password == null){
+      // alert("User Name is Required..!")
+      this.snack.open("Password is Required.!!", "OK", {
+        duration:2000,
+      })
+      return;
+    }
+    //Request Service to generate token
+    this.signIn.generateToken(this.signInData).subscribe(
+      (data:any)=>{
+          console.log("Success");
+          console.log(data); 
+      },
+      (error)=>{
+        console.log("Error..!");
+        console.log(error);  
+      }
+    );
+    
+  }
 }
