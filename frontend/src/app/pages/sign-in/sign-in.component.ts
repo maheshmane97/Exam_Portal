@@ -40,6 +40,20 @@ export class SignInComponent implements OnInit {
       (data:any)=>{
           console.log("Success");
           console.log(data); 
+
+          //LogIn..
+          this.signIn.signInUser(data.token);
+
+          this.signIn.getCurrentUser().subscribe(
+            (user:any)=>{
+              this.signIn.setUser(user);
+              console.log(user);
+              //Redirect if ADMIN on ADMIN dashboard
+              //Redirect if NORMAL on Normal dashboard
+              
+              
+            }
+          )
       },
       (error)=>{
         console.log("Error..!");

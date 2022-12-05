@@ -8,6 +8,11 @@ export class SignInService {
   
   constructor(private http:HttpClient) { }
 
+    //CurrentUser which is logged in
+  public getCurrentUser(){
+    return this.http.get(API_URL+"/current-user");
+  }
+
   //Generate Token
   public generateToken(signInData:any){
      return this.http.post(API_URL+"/generate-token", signInData);
@@ -29,5 +34,37 @@ export class SignInService {
     }
   }
 
-  
+  //Logout: remove token from local storage
+  public signOut(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    return true;
+  }
+
+  //get Token
+  public getToken(){
+    return localStorage.getItem("token")
+  }
+
+  //set UserDetails
+  public setUser(user:any){
+    return localStorage.setItem("user", JSON.stringify(user));
+  }
+
+  //getUser
+  public getUser(){
+    let userStr=localStorage.getItem("user");
+    if(userStr!=null){
+      return JSON.parse(userStr);
+    }else{
+      this.signOut();
+      return null;
+    }
+  }
+
+  //get UserRole
+  public getUserRole(){
+    let user=this.getUser();
+    return user.authorities[0].authority;
+  }
 }

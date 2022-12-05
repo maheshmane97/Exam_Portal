@@ -17,6 +17,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import { authInterceptorProvider } from './services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import {MatIconModule} from '@angular/material/icon';
     MatToolbarModule,
     MatIconModule,
   ],
-  providers: [],
+  providers: [authInterceptorProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
